@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+
+<head></head>
+
+<body>
+  <div id="maincontainer"></div>
+  <script>
+
+    //heading
+    const heading = document.createElement("h2");
+    const headingText = document.createTextNode("Exercise 04: JavaScript&DOM");
+    heading.appendChild(headingText);
+    document.body.appendChild(heading);
+
+    //button
+
+
+    const buttonSt1 = document.createElement("button");
+    const buttonSt2 = document.createElement("button");
+
+    buttonSt1.innerHTML = "Click me to display Date and Time";
+    buttonSt2.hidden = true;
+    buttonSt2.style.position = "fixed";
+    buttonSt2.style.right = "0";
+    buttonSt2.style.top = "0";
+
+    buttonSt1.onclick = () => {
+      buttonSt1.hidden = true;
+      buttonSt2.hidden = false;
+      NewWorker();
+    };
+
+    var st = 0;
+    buttonSt2.onclick = () => {
+      if (st == 0) {
+        DelWorker();
+        buttonSt2.style.position = "relative";
+      } else {
+        NewWorker();
+        buttonSt2.style.position = "fixed";
+      }
+      st ^= 1;
+    };
+
+    var cnt = 0;
+    const color = () => {
+      colorBG = ["red", "green", "blue", "salmon", "lightgreen", "aqua"];
+      colorTxt = [
+        "darkgreen",
+        "crimson",
+        "darkorange",
+        "darkblue",
+        "darkred",
+        "orangered",
+      ];
+      buttonSt2.style.color = colorTxt[cnt];
+      buttonSt2.style.backgroundColor = colorBG[cnt];
+      cnt = (cnt + 1) % 6;
+    };
+
+    var w;
+
+    const NewWorker = () => {
+      w = new Worker("worker.js");
+      buttonSt2.innerHTML = new Date();
+
+      w.onmessage = (e) => {
+        buttonSt2.innerHTML = e.data;
+        color();
+      };
+
+      return w;
+    };
+
+    const DelWorker = () => {
+      w.terminate();
+    };
+
+    document.body.appendChild(buttonSt1);
+    document.body.appendChild(buttonSt2);
+
+    //Personal Info 
+    const diva1 = document.createElement("div");
+    diva1.style.marginTop = "25px";
+    const a1 = document.createElement("a");
+    a1.innerHTML = "Personal Info";
+    a1.style.color = "#DEA0DA"
+    a1.href = "#";
+
+    a1.onmouseover = () => {
+      a1.style.textDecoration = "underline";
+      a1.style.backgroundColor = "yellow";
+      a1.style.color = "blue";
+    };
+
+
+    a1.onmouseleave = () => {
+      a1.style.backgroundColor = "transparent";
+      a1.style.color = "#DEA0DA";
+    };
+
+    diva1.append(a1);
+    document.body.appendChild(diva1);
+
+    //personal profile
+    const divprofile = document.createElement("div");
+    const ul = document.createElement("ul");
+
+    profile = [
+      ["Patiphan  Tamprasit, ID 64010476"],
+      ["Subject: Web Application Development"],
+      ["Semester: 2/2565"],
+    ];
+
+    profile.forEach((e) => {
+      const li = document.createElement("li");
+      li.innerHTML = e;
+      ul.append(li);
+    });  
+
+    divprofile.append(ul);
+    divprofile.style.display = "none";
+
+    a1.onclick = () => {
+      if (divprofile.style.display === "none") {
+        divprofile.style.display = "block";
+      } else {
+        divprofile.style.display = "none";
+      }
+    };
+    document.body.appendChild(divprofile);
+
+    //snap shot
+    const Snap = document.createElement("h1");
+    Snap.innerHTML = "SnapShots";
+    document.body.appendChild(Snap);
+
+    const snapShot_ul = document.createElement('ul')
+    document.body.appendChild(snapShot_ul)
+    let data_snapShot = [["Fireworks", "https://s40313.pcdn.co/news/wp-content/uploads/2023/01/Fireworks_RESIZED-.jpg"],
+    ["Crest", "https://inwfile.com/s-ch/ebcclt.jpg"],
+    ["Action", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDSdhW5Uvvub5eIWcxkFynzIyg6NI_rMP2uA&usqp=CAU"],
+    ["Buffalo", "https://static.vecteezy.com/system/resources/previews/003/442/627/original/buffalo-cartoon-illustrations-free-vector.jpg"]]
+   
+    data_snapShot.forEach((data) => {
+      let snapShot_li = document.createElement('li')
+      document.body.appendChild(snapShot_li)
+
+      let snapShot_link = document.createElement('a')
+      snapShot_link.innerHTML = data[0]
+      snapShot_link.href = "#"
+      snapShot_li.addEventListener("click", () => {
+        snapeShot_footer.src = `${data[1]}`
+      })
+      snapShot_li.appendChild(snapShot_link)
+    })
+
+    const snapeShot_footer = document.createElement('img');
+    snapeShot_footer.style.width = "40%"
+    snapeShot_footer.src = 'https://upload.wikimedia.org/wikipedia/commons/4/4e/Kmitl.jpg?20170907120027'
+
+    document.body.appendChild(snapeShot_footer)
+    
+
+
+  </script>
+</body>
+
+</html>
